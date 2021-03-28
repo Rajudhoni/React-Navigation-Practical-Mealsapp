@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import 'react-native-gesture-handler';
 import { View, Text, Platform } from 'react-native';
 import React from 'react';
@@ -8,11 +7,14 @@ import CategoriesScreen from './screens/CategoriesScreen';
 import CategoryMealsScreen from './screens/CategoryMealsScreen';
 import MealDetailScreen from './screens/MealDetailScreen';
 import Colors from './constants/Colors';
+import { enableScreens } from 'react-native-screens';
 
 
 const Stack = createStackNavigator();
 
+
 export default function App() {
+  enableScreens();
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -25,9 +27,12 @@ export default function App() {
                     }}  
         />
       
-        
-        <Stack.Screen name="CategoryMealsScreen" component={CategoryMealsScreen} options={({ route }) => ({ title: route.params.title })} />
-        <Stack.Screen name="MealDetailScreen" component={MealDetailScreen}  />
+        {/* setting dynamic navigation header title using params */}
+        <Stack.Screen name="CategoryMealsScreen" component={CategoryMealsScreen}
+                       options={({ route }) => ({ title: route.params.title, ...headerStyle })} 
+        /> 
+            
+        <Stack.Screen name="MealDetailScreen" component={MealDetailScreen} options={{title: 'Meal Detail', ...headerStyle}}  />
       </Stack.Navigator>
 
       </NavigationContainer>
@@ -36,9 +41,9 @@ export default function App() {
 
 const headerStyle = {
       headerStyle: {
-        backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : 'white' 
+        backgroundColor: Platform.OS === 'android' ? 'white' :  Colors.primaryColor
       },
-      headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primaryColor ,
+      headerTintColor: Platform.OS === 'android' ? Colors.primaryColor : 'white' ,
       headerTitleStyle: {
         fontWeight: 'bold',
         
